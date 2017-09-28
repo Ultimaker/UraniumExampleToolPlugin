@@ -2,8 +2,8 @@
 # This example is released under the terms of the AGPLv3 or higher.
 
 import os.path #To find the QML files.
-from PyQt5.QtCore import Qt, QUrl #To define a shortcut key and to find the QML files.
-from PyQt5.QtQml import QQmlComponent, QQmlContext
+from PyQt5.QtCore import pyqtProperty, Qt, QUrl, QObject, QVariant #To define a shortcut key and to find the QML files, and to expose information to QML.
+from PyQt5.QtQml import QQmlComponent, QQmlContext #To create a dialogue window.
 
 from UM.Application import Application #To register the information dialogue.
 from UM.Event import Event #To understand what events to react to.
@@ -22,6 +22,7 @@ class ExampleTool(Tool): #The Tool class extends from PluginObject, and we have 
 
         #This plug-in creates a window with information about the objects we've selected. That window is lazily-loaded.
         self.info_window = None
+        self.selection_info_model = SelectionInfoModel()
 
     ##  Called when something happens in the scene while our tool is active.
     #
@@ -42,4 +43,14 @@ class ExampleTool(Tool): #The Tool class extends from PluginObject, and we have 
         component = QQmlComponent(Application.getInstance()._engine, qml_file)
         qml_context = QQmlContext(Application.getInstance()._engine.rootContext()) #List the QML component as subcomponent of the main window.
 
+        #We give the current object to the QML engine so that they can request information from it.
+        #To do this, the current class must be a QObject.
+        qml_context.setContextProperty("SelectionInfoModel", self.selection_info_model)
+
         return component.create(qml_context)
+
+##  This class exposes some information about the selection to QML.
+class SelectionInfoModel(QObject):
+    @pyqtProperty(str)
+    def selectionIds(self):
+        return ", ".join([node.getName() for node in Selection.getAllSelectedObjects()])
