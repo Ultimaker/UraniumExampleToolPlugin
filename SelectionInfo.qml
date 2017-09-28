@@ -24,7 +24,7 @@ UM.Dialog //Creates a modal window that pops up above the interface.
         anchors.left: base.left
         anchors.leftMargin: 10
 
-        text: "Object IDs: "
+        text: "Selected objects: "
     }
     Text
     {
@@ -32,6 +32,6 @@ UM.Dialog //Creates a modal window that pops up above the interface.
         anchors.verticalCenter: id_label.verticalCenter
         anchors.left: id_label.right
 
-        text: SelectionInfoModel.selectionIds
+        text: UM.Selection.selectionNames.join()
     }
 }
