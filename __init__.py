@@ -12,7 +12,7 @@ def getMetaData():
         "tool": {
             "name": "Example Tool",
             "description": "This is an example tool to illustrate to plug-in developers how tool plug-ins are created.", #Typically displayed when hovering over the tool icon.
-            "icon": "wrench.svg" #Displayed on the button.
+            "icon": "magnifying_glass.svg" #Displayed on the button.
         }
     }
 
