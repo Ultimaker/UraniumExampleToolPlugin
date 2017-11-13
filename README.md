@@ -1,7 +1,7 @@
 Example Tool
 ============
 
-This is an example tool plug-in for Uranium.
+This is an example tool plug-in for Uranium. Uranium is the underlying framework used in Ultimaker Cura and NinjaKittens.
 
 The tool type plug-in is meant to allow the user to manipulate the scene. Each tool gets its own button in the tool panel. The tool plug-in mainly works via an event that happens in the scene. The tool itself may decide what events it wants to act on, such as a keyboard event, a mouse release event, and so on. And then it does something with it.
 
