@@ -37,9 +37,8 @@ class ExampleTool(Tool): #The Tool class extends from PluginObject, and we have 
 
     ##  Creates a modal dialogue with information about the selection.
     def _createDialogue(self):
-        #Create a QML component from the Hello.qml file.
-        qml_file = QUrl.fromLocalFile(os.path.join(PluginRegistry.getInstance().getPluginPath(self.getPluginId()), "SelectionInfo.qml"))
-        component = QQmlComponent(Application.getInstance()._engine, qml_file)
-        qml_context = QQmlContext(Application.getInstance()._engine.rootContext()) #List the QML component as subcomponent of the main window.
+        #Create a QML component from the SelectionInfo.qml file.
+        qml_file_path = os.path.join(PluginRegistry.getInstance().getPluginPath(self.getPluginId()), "SelectionInfo.qml")
+        component = Application.getInstance().createQmlComponent(qml_file_path)
 
-        return component.create(qml_context)
+        return component
