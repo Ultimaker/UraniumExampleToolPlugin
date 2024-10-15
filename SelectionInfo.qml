@@ -3,7 +3,7 @@
 
 import UM 1.1 as UM //This allows you to use all of Uranium's built-in QML items.
 import QtQuick 2.2 //This allows you to use QtQuick's built-in QML items.
-import QtQuick.Controls 1.1 //Contains the "Label" element.
+import QtQuick.Controls //Contains the "Label" element.
 
 UM.Dialog //Creates a modal window that pops up above the interface.
 {
