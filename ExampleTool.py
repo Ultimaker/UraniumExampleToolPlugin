@@ -2,11 +2,12 @@
 # This example is released under the terms of the AGPLv3 or higher.
 
 import os.path #To find the QML files.
-from PyQt5.QtCore import pyqtProperty, pyqtSignal, Qt, QUrl, QObject, QVariant #To define a shortcut key and to find the QML files, and to expose information to QML.
-from PyQt5.QtQml import QQmlComponent, QQmlContext #To create a dialogue window.
+from PyQt6.QtCore import pyqtProperty, pyqtSignal, Qt, QUrl, QObject, QVariant #To define a shortcut key and to find the QML files, and to expose information to QML.
+from PyQt6.QtQml import QQmlComponent, QQmlContext #To create a dialogue window.
 
 from UM.Application import Application #To register the information dialogue.
 from UM.Event import Event #To understand what events to react to.
+from UM.Logger import Logger #To improve visibility into what's happening.
 from UM.PluginRegistry import PluginRegistry #To find the QML files in the plug-in folder.
 from UM.Scene.Selection import Selection #To get the current selection and some information about it.
 from UM.Tool import Tool #The PluginObject we're going to extend.
@@ -18,10 +19,15 @@ class ExampleTool(Tool): #The Tool class extends from PluginObject, and we have 
     def __init__(self):
         super().__init__()
 
-        self._shortcut_key = Qt.Key_X
+        self._shortcut_key = Qt.Key.Key_X
 
         #This plug-in creates a window with information about the objects we've selected. That window is lazily-loaded.
         self.info_window = None
+
+        #Log something so we can see if it got this far.
+        #Expect to find the output in cura.log:
+        # https://support.ultimaker.com/s/article/1667337559413
+        Logger.log("d", f'Greetings from {__file__}')
 
     ##  Called when something happens in the scene while our tool is active.
     #
@@ -33,11 +39,13 @@ class ExampleTool(Tool): #The Tool class extends from PluginObject, and we have 
             #As example for this tool, we'll spawn a message with some information.
             if self.info_window is None:
                 self.info_window = self._createDialogue()
+            Logger.log("d", f'Attempting to show dialog')
             self.info_window.show()
 
     ##  Creates a modal dialogue with information about the selection.
     def _createDialogue(self):
         #Create a QML component from the SelectionInfo.qml file.
+        Logger.log("d", f'Attempting to create dialog')
         qml_file_path = os.path.join(PluginRegistry.getInstance().getPluginPath(self.getPluginId()), "SelectionInfo.qml")
         component = Application.getInstance().createQmlComponent(qml_file_path)
 
